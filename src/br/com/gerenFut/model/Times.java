@@ -14,15 +14,15 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "times", schema = "projetofutebol")
+@Table(name = "times")
 public class Times implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	
 	@Id
 	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@SequenceGenerator(name="seqIdTimes",sequenceName="times_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqIdTimes")
+	@SequenceGenerator(name="seqIdTimes",sequenceName="times_id_seq", initialValue = 1, allocationSize = 1)
 	private int id;
 	
 	@Column(name = "nome_time")
@@ -61,7 +61,7 @@ public class Times implements Serializable{
 		return estado;
 	}
 
-	public void setEndereco(String estado) {
+	public void setEstado(String estado) {
 		this.estado = estado;
 	}
 	

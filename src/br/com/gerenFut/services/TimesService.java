@@ -7,12 +7,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 
 import br.com.gerenFut.util.TimesNegocio;
+import br.com.gerenFut.validacao.TimesValidacao;
+import br.com.gerenFut.DTO.TimesDTO;
 import br.com.gerenFut.model.*;
 
 @Path("/times")
@@ -20,35 +28,77 @@ public class TimesService {
 
 	
 	private TimesNegocio timesNegocio = new TimesNegocio();
-	Logger logger;
+	private TimesValidacao timesValidacao = new TimesValidacao();
+	private static final Logger LOGGER = Logger.getLogger(TimesService.class);
+
 	
-	@GET
-	@Path("/getTimes")
-	//@Produces("application/json")
-	@Produces("text/html")
-	public String getTimes() {
+	@POST
+	@Path("/testeTime")
+    @Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String testeTime(String teste) {
 		
-		return "<html><body><h1>getTimes</body></h1></html>";
+		LOGGER.info("TimesService - testeTime");
+		
+		return "<html><body><h1>testeTime</body></h1></html>";
+
 	}
+	
 
 	@POST
 	@Path("/criaTime")
-	public String criaTime() {
+    @Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String criaTime(String timeJson) {
 		
-		/* Validar a formatacao dos dados de entrada
-			chamar o metodo em *.util e dentro dessse metodo
-			realizar a validacao das informacoes. 
-		*/
+		LOGGER.info("TimesService - criaTime");
 		
-		return "<html><body><h1>criaTime</body></h1></html>";
+		Gson gson = new Gson();
+		TimesDTO timeDTO = gson.fromJson(timeJson, TimesDTO.class);
+		Map<String, Boolean> retorno = new HashMap<String, Boolean>();
+		
+		int validacao;
+		validacao = timesValidacao.validarCriacaoInfoTime(timeDTO);
+		
+		if(validacao == -1) {
+
+			throw new WebApplicationException(
+					Response.status(Response.Status.BAD_REQUEST).entity("Nome do time é obrigatório")
+					.build());
+		}
+		if(validacao == -2) {
+			
+			throw new WebApplicationException(
+					Response.status(Response.Status.BAD_REQUEST).entity("Estado do time é obrigatório")
+					.build());
+		}
+		
+		if(validacao == 0) {
+			timesNegocio.salvarTime(timeDTO);
+			
+			retorno.put("Confirmacao", true);
+			
+		}
+		LOGGER.info("TimesService - criaTime - OK");
+		
+		return gson.toJson(retorno);
 	}
 	
 	@GET
-	@Path("/removeTime")
-	public String removetime() {
+	@Path("/removeTime/{timeId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String removetime(@PathParam("timeId") String id) {
 		
+		LOGGER.info("TimesService - removetime");
 		
-		return "<html><body><h1>removetime</body></h1></html>";
+		Gson gson = new Gson();
+		Map<String, Boolean> retorno = new HashMap<String, Boolean>();
+		
+		timesNegocio.removerTime(id);
+		
+		retorno.put("Removido", true);
+		
+		return gson.toJson(retorno);
 	}
 	
 	@POST
@@ -60,9 +110,10 @@ public class TimesService {
 	
 	@GET
 	@Path("/obtertimes")
-	//@Produces(MediaType.APPLICATION_JSON)
-	@Produces("application/json")
+	@Produces(MediaType.APPLICATION_JSON)
 	public String obterTodosOsTimes(){
+		
+		LOGGER.info("TimesService - obterTodosOsTimes");
 		
 		Gson gson = new Gson();
 		List<Times> times = timesNegocio.obterTodosOsTimes();
@@ -70,9 +121,8 @@ public class TimesService {
 		Map<String, List<Times>> retorno = new HashMap<String, List<Times>>();
 		retorno.put("Times", times);
 		
+		LOGGER.info("TimesService - obterTodosOsTimes - OK");
 		return gson.toJson(retorno);
-		
-		
 	}
 	
 	
