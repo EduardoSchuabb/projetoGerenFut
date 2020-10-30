@@ -30,9 +30,7 @@ public class TimesDAO{
 	}
 	
 	public TimesDAO() {
-	
 		entityManager = getEntityManager();
-		
 	}
 	
 	private EntityManager getEntityManager() {
@@ -43,7 +41,6 @@ public class TimesDAO{
 			entityManager = factory.createEntityManager();
 		
 		return entityManager;
-		
 	}
 	
 	public void removerTime(String id) {
@@ -59,7 +56,6 @@ public class TimesDAO{
 	
 		LOGGER.info("TimesDAO - removerTime - OK");
 	}
-	
 	
 	public void salvarTime(Times time) {
 		LOGGER.info("TimesDAO - salvarTime");
@@ -77,12 +73,45 @@ public class TimesDAO{
 	public List<Times> obterTodosTimes(){
 		LOGGER.info("TimesDAO - obterTodosTimes");
 		
-		Query listaTodosQuery = entityManager.createQuery("from Times");
+		Query listaTodosTimes = entityManager.createQuery("from Times");
 		
 		List<Times> times = null;
-		times = listaTodosQuery.getResultList();
+		times = listaTodosTimes.getResultList();
 		
 		return times;
+	}
+	
+	public Times obterTimeId(int id) {
+		LOGGER.info("TimesDAO - obterTimeId");
+		Times timeBanco = entityManager.find(Times.class, id);
+		
+		return timeBanco;
+	}
+	
+	public Times obterTimeNome(String nome) {
+		LOGGER.info("TimesDAO - obterTimeNome");
+		//Times timeBanco = entityManager.find(Times.class, id);
+		Query queryTimePorNome = entityManager
+				.createQuery("SELECT t FROM Times t WHERE t.nome = :timeNome")
+				.setParameter("timeNome", nome);
+		try {
+			Times timeBanco = (Times) queryTimePorNome.getSingleResult();
+			return timeBanco;
+			
+		} catch(Exception e) {
+			return null;
+		}
+	}
+	
+	
+	public void atualizarTime(Times time) {
+		LOGGER.info("TimesDAO - atualizarTIme");
+		entityManager.getTransaction().begin();
+		entityManager.merge(time);
+		entityManager.getTransaction().commit();
+		entityManager.close();
+		
+		LOGGER.info("TimesDAO - atualizarTime - OK");
 	}
 	
 	

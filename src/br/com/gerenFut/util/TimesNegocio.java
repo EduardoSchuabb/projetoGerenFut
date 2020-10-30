@@ -17,17 +17,20 @@ public class TimesNegocio {
 		
 	}
 	
-	public void removerTime(String id) {
-		LOGGER.info("TimesNegocio - removerTime");
-			
-		timesDAO.removerTime(id);
+	public void atualizarTime(Times time) {
+		LOGGER.info("TimesNegocio - atualizarTime");
+		timesDAO.atualizarTime(time);
+	}
 	
+	
+	public void removerTime(String id) {
+		LOGGER.info("TimesNegocio - removerTime");	
+		timesDAO.removerTime(id);
 	}
 	
 	
 	public List<Times> obterTodosOsTimes(){
 		LOGGER.info("TimesNegocio - obterTodosOsTimes");
-		
 		return timesDAO.obterTodosTimes();
 	}
 	

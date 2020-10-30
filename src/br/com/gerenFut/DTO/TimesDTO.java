@@ -1,8 +1,6 @@
 package br.com.gerenFut.DTO;
 
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement 
 public class TimesDTO {
 
 	

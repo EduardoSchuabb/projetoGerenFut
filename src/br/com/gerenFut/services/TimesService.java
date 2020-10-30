@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -30,19 +31,6 @@ public class TimesService {
 	private TimesNegocio timesNegocio = new TimesNegocio();
 	private TimesValidacao timesValidacao = new TimesValidacao();
 	private static final Logger LOGGER = Logger.getLogger(TimesService.class);
-
-	
-	@POST
-	@Path("/testeTime")
-    @Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public String testeTime(String teste) {
-		
-		LOGGER.info("TimesService - testeTime");
-		
-		return "<html><body><h1>testeTime</body></h1></html>";
-
-	}
 	
 
 	@POST
@@ -59,26 +47,25 @@ public class TimesService {
 		
 		int validacao;
 		validacao = timesValidacao.validarCriacaoInfoTime(timeDTO);
-		
 		if(validacao == -1) {
-
 			throw new WebApplicationException(
 					Response.status(Response.Status.BAD_REQUEST).entity("Nome do time é obrigatório")
 					.build());
 		}
 		if(validacao == -2) {
-			
 			throw new WebApplicationException(
 					Response.status(Response.Status.BAD_REQUEST).entity("Estado do time é obrigatório")
 					.build());
 		}
-		
-		if(validacao == 0) {
+		if(!timesValidacao.verificaSeExisteTimePorNome(timeDTO.getNome()))
 			timesNegocio.salvarTime(timeDTO);
-			
-			retorno.put("Confirmacao", true);
-			
+		else {
+			throw new WebApplicationException(
+					Response.status(Response.Status.BAD_REQUEST).entity("Time ja existe.")
+					.build());
 		}
+		
+		retorno.put("Confirmacao", true);
 		LOGGER.info("TimesService - criaTime - OK");
 		
 		return gson.toJson(retorno);
@@ -97,15 +84,44 @@ public class TimesService {
 		timesNegocio.removerTime(id);
 		
 		retorno.put("Removido", true);
-		
 		return gson.toJson(retorno);
 	}
 	
-	@POST
+	@PUT
 	@Path("/atualizaTime")
-	public String atualizaTime() {
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String atualizaTime(String timeJson) {
 		
-		return "<html><body><h1>atualizaTime</body></h1></html>";
+		LOGGER.info("TimesService - removetime");
+		
+		Gson gson = new Gson();
+		Times time = gson.fromJson(timeJson, Times.class);
+		Map<String, Boolean> retorno = new HashMap<String, Boolean>();
+		
+		int validacao;
+		validacao = timesValidacao.validarModicacaoInfoTime(time);
+		if(validacao == -1) {
+			throw new WebApplicationException(
+					Response.status(Response.Status.BAD_REQUEST).entity("Nome do time é obrigatório")
+					.build());
+		}
+		if(validacao == -2) {
+			throw new WebApplicationException(
+					Response.status(Response.Status.BAD_REQUEST).entity("Estado do time é obrigatório")
+					.build());
+		}
+		
+		if(timesValidacao.verificarSeExisteTimePorId(time.getId())) 
+			timesNegocio.atualizarTime(time);
+		else {
+			throw new WebApplicationException(
+					Response.status(Response.Status.BAD_REQUEST).entity("Time nao existe.")
+					.build());
+		}
+		
+		retorno.put("Atualizado", true);
+		return gson.toJson(retorno);
 	}
 	
 	@GET

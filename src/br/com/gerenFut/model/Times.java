@@ -35,7 +35,7 @@ public class Times implements Serializable{
 	private int qtdJogadores;
 	
 	
-	  public Times() {
+	public Times() {
 	  
 	  // Construtor padrao
 	}
@@ -48,6 +48,12 @@ public class Times implements Serializable{
 		this.qtdJogadores = qtdJogadores;
 	}
 	
+	
+	
+
+	public int getId() {
+		return id;
+	}
 
 	public String getNome() {
 		return nome;
