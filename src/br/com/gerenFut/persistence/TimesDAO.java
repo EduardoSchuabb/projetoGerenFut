@@ -103,7 +103,6 @@ public class TimesDAO{
 		}
 	}
 	
-	
 	public void atualizarTime(Times time) {
 		LOGGER.info("TimesDAO - atualizarTIme");
 		entityManager.getTransaction().begin();

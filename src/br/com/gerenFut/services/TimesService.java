@@ -81,7 +81,14 @@ public class TimesService {
 		Gson gson = new Gson();
 		Map<String, Boolean> retorno = new HashMap<String, Boolean>();
 		
-		timesNegocio.removerTime(id);
+		
+		if(timesValidacao.verificarSeExisteTimePorId(Integer.parseInt(id)))
+			timesNegocio.removerTime(id);
+		else {
+			throw new WebApplicationException(
+					Response.status(Response.Status.BAD_REQUEST).entity("Time nao existe.")
+					.build());
+		}
 		
 		retorno.put("Removido", true);
 		return gson.toJson(retorno);

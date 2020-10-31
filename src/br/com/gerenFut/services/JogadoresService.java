@@ -17,30 +17,36 @@ import com.google.gson.Gson;
 import com.sun.istack.logging.Logger;
 
 import br.com.gerenFut.DTO.JogadoresDTO;
-import br.com.gerenFut.DTO.TimesDTO;
 import br.com.gerenFut.util.JogadoresNegocio;
 import br.com.gerenFut.validacao.JogadoresValidacao;
 
 @Path("/jogadores")
-public class jogadoresService {
+public class JogadoresService {
 
 	
 	private JogadoresNegocio jogadoresNegocio = new JogadoresNegocio();
 	private JogadoresValidacao jogadoresValidacao = new JogadoresValidacao();
-	private static final Logger LOGGER = Logger.getLogger(jogadoresService.class);
+	private static final Logger LOGGER = Logger.getLogger(JogadoresService.class);
 
 	
 	@GET
 	@Path("/removeJogador/{jogadorId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String removetime(@PathParam("jogadorId") String id) {
-	
-		return "<html><body><h1>removetime</body></h1></html>";
+		LOGGER.info("JogadoresService - removetime");
+		
+		Gson gson = new Gson();
+		Map<String, Boolean> retorno = new HashMap<String, Boolean>();
+		
+		jogadoresNegocio.removerJogador(id);
+		
+		retorno.put("Removido", true);
+		return gson.toJson(retorno);
 	}
 	
 	
 	@POST
-	@Path("/criaJogador")
+	@Path("/criaJogadores")
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String criaJogador(String jogadorJson) {
@@ -68,7 +74,7 @@ public class jogadoresService {
 					.build());
 		}
 		if(!jogadoresValidacao.verificaSeExisteJogadorPorNome(jogadorDTO.getNome()))
-			jogadoresNegocio.salvarJogador(jogadorDTO); // ainda nao implementada
+			jogadoresNegocio.salvarJogador(jogadorDTO);
 		else {
 			throw new WebApplicationException(
 					Response.status(Response.Status.BAD_REQUEST).entity("Jogador ja existe.")
@@ -80,7 +86,6 @@ public class jogadoresService {
 		
 		return gson.toJson(retorno);
 	}
-	
 	
 	@POST
 	@Path("/atualizaJogador")

@@ -51,16 +51,6 @@ public class TimesValidacao {
 		return retorno;
 	}
 	
-	public void validarExclusaoInfoTime() {
-		
-		/* metodo responsavel por validar as informacoes
-			para excluir alguma empresa.
-			Exemplo de validacoes:
-			 	- Se empresa existe;
-			 	- Se a pessoa que informa querer excluir eh dono da empresa
-		*/
-	}
-	
 	public Boolean verificarSeExisteTimePorId(int id) {
 		LOGGER.info("TimesValidacao - verificarSeExisteTimePorId");
 		Times timeBanco = timesDAO.obterTimeId(id);

@@ -1,11 +1,9 @@
 package br.com.gerenFut.DTO;
 
-import java.sql.Date;
-
 public class JogadoresDTO {
 
 	private String nome;
-	private Date dataNascimento;
+	private String dataNascimento;
 	private double altura;
 	private String posicao;
 	private double valorMercado;
@@ -23,10 +21,10 @@ public class JogadoresDTO {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public Date getDataNascimento() {
+	public String getDataNascimento() {
 		return dataNascimento;
 	}
-	public void setDataNascimento(Date dataNascimento) {
+	public void setDataNascimento(String dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 	public double getAltura() {

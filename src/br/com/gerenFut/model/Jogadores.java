@@ -1,13 +1,15 @@
 package br.com.gerenFut.model;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -41,8 +43,8 @@ public class Jogadores implements Serializable{
 	@Column(name = "nacionalidade")
 	private String nacionalidade;
 
-	// Verificar como eh feita a referencia no banco. Essa eh uma FK.
-	@Column(name = "time_id")
+	@ManyToOne
+	@JoinColumn(name = "time_id")
 	private Times time;
 	
 	
@@ -118,6 +120,14 @@ public class Jogadores implements Serializable{
 
 	public void setNacionalidade(String nacionalidade) {
 		this.nacionalidade = nacionalidade;
+	}
+
+	public Times getTime() {
+		return time;
+	}
+
+	public void setTime(Times time) {
+		this.time = time;
 	}
 	
 	
