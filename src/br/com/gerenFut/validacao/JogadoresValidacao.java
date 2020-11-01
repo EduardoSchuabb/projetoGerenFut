@@ -17,7 +17,7 @@ public class JogadoresValidacao {
 		
 	}
 	
-	public int validarCriacaoInfoJogador(JogadoresDTO jogador) {
+	public int validarInfoJogador(JogadoresDTO jogador) {
 		
 		LOGGER.info("JogadoresValidacao - validarCriacaoInfoJogador");
 	
@@ -31,7 +31,7 @@ public class JogadoresValidacao {
 			LOGGER.severe("Validacao de criacao de jogador - Posicao vazio.");
 			retorno = -2;
 		}
-		if(!timesValidacao.verificarSeExisteTimePorId(jogador.getIdTime())) {
+		if(!timesValidacao.existeTimePorId(jogador.getIdTime())) {
 			LOGGER.severe("Validacao de criacao de jogador - Time nao existe.");
 			retorno = -3;
 		}
@@ -39,14 +39,40 @@ public class JogadoresValidacao {
 		return retorno;
 	}
 	
-	public Boolean verificaSeExisteJogadorPorNome(String nome) {
-		LOGGER.info("JogadoresValidacao - validarCriacaoInfoJogador");
+	public int validarModificacaoInfoJogador(Jogadores jogador) {
+		
+		int retorno = 0;
+		
+		if(jogador.getNome() == null || jogador.getNome().isEmpty()) {
+			LOGGER.severe("Validacao de criacao de jogador - Nome vazio.");
+			retorno = -1;
+		}
+		if(jogador.getPosicao() == null || jogador.getPosicao().isEmpty()) {
+			LOGGER.severe("Validacao de criacao de jogador - Posicao vazio.");
+			retorno = -2;
+		}
+		if(!timesValidacao.existeTimePorId(jogador.getTime().getId())) {
+			LOGGER.severe("Validacao de criacao de jogador - Time nao existe.");
+			retorno = -3;
+		}
+		
+		return retorno;
+	}
+	
+	public Boolean existeJogadorPorNome(String nome) {
+		LOGGER.info("JogadoresValidacao - verificaSeExisteJogadorPorNome");
 		
 		Jogadores jogadorBanco = jogadoresDAO.obterJogadorNome(nome);
 		
 		return (jogadorBanco != null);
 	}
 	
-	
+	public Boolean existeJogadorPorId(int id) {
+		LOGGER.info("JogadoresValidacao - verificaSeExisteJogadorPorId");
+		
+		Jogadores jogadorBanco = jogadoresDAO.obterJogardorId(id);
+		
+		return (jogadorBanco != null);
+	}
 	
 }

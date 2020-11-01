@@ -90,7 +90,7 @@ public class TimesDAO{
 	
 	public Times obterTimeNome(String nome) {
 		LOGGER.info("TimesDAO - obterTimeNome");
-		//Times timeBanco = entityManager.find(Times.class, id);
+
 		Query queryTimePorNome = entityManager
 				.createQuery("SELECT t FROM Times t WHERE t.nome = :timeNome")
 				.setParameter("timeNome", nome);

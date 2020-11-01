@@ -51,14 +51,14 @@ public class TimesValidacao {
 		return retorno;
 	}
 	
-	public Boolean verificarSeExisteTimePorId(int id) {
+	public Boolean existeTimePorId(int id) {
 		LOGGER.info("TimesValidacao - verificarSeExisteTimePorId");
 		Times timeBanco = timesDAO.obterTimeId(id);
 		return (timeBanco != null);
 		
 	}
 	
-	public Boolean verificaSeExisteTimePorNome(String nome) {
+	public Boolean existeTimePorNome(String nome) {
 		LOGGER.info("TimesValidacao - verificaSeExisteTimePorNome");
 		
 		Times timeBanco = timesDAO.obterTimeNome(nome);

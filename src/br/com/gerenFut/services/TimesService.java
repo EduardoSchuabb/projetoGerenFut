@@ -57,7 +57,7 @@ public class TimesService {
 					Response.status(Response.Status.BAD_REQUEST).entity("Estado do time é obrigatório")
 					.build());
 		}
-		if(!timesValidacao.verificaSeExisteTimePorNome(timeDTO.getNome()))
+		if(!timesValidacao.existeTimePorNome(timeDTO.getNome()))
 			timesNegocio.salvarTime(timeDTO);
 		else {
 			throw new WebApplicationException(
@@ -82,7 +82,7 @@ public class TimesService {
 		Map<String, Boolean> retorno = new HashMap<String, Boolean>();
 		
 		
-		if(timesValidacao.verificarSeExisteTimePorId(Integer.parseInt(id)))
+		if(timesValidacao.existeTimePorId(Integer.parseInt(id)))
 			timesNegocio.removerTime(id);
 		else {
 			throw new WebApplicationException(
@@ -119,7 +119,7 @@ public class TimesService {
 					.build());
 		}
 		
-		if(timesValidacao.verificarSeExisteTimePorId(time.getId())) 
+		if(timesValidacao.existeTimePorId(time.getId())) 
 			timesNegocio.atualizarTime(time);
 		else {
 			throw new WebApplicationException(

@@ -1,5 +1,7 @@
 package br.com.gerenFut.persistence;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -7,7 +9,9 @@ import javax.persistence.Query;
 
 import com.sun.istack.logging.Logger;
 
+
 import br.com.gerenFut.model.Jogadores;
+import br.com.gerenFut.model.Times;
 
 public class JogadoresDAO {
 
@@ -28,15 +32,11 @@ public class JogadoresDAO {
 	}
 	
 	private EntityManager getEntityManager() {
-	
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudGerenFut");
-		
 		if (entityManager == null) 
 			entityManager = factory.createEntityManager();
-		
 		return entityManager;
 	}
-	
 	
 	public void salvarJogador(Jogadores jogador) {
 		LOGGER.info("JogadoresDAO - salvarJogador");
@@ -63,8 +63,7 @@ public class JogadoresDAO {
 		LOGGER.info("JogadoresDAO - removerJogador - OK");
 	}
 	
-	public Jogadores obterJogaresId(int id) {
-		
+	public Jogadores obterJogardorId(int id) {
 		LOGGER.info("JogadoresDAO - obterJogaresId");
 		Jogadores jogador = entityManager.find(Jogadores.class, id);
 		
@@ -73,7 +72,6 @@ public class JogadoresDAO {
 	
 	public Jogadores obterJogadorNome(String nome) {
 		LOGGER.info("JogadoresDAO - obterJogadorNome");
-		//Times timeBanco = entityManager.find(Times.class, id);
 		Query queryTimePorNome = entityManager
 				.createQuery("SELECT j FROM Jogadores j WHERE j.nome = :jogadorNome")
 				.setParameter("jogadorNome", nome);
@@ -94,6 +92,19 @@ public class JogadoresDAO {
 		entityManager.close();
 		
 		LOGGER.info("JogadoresDAO - atualizarJogador - OK");
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Jogadores> obterJogadoresPorTime(Times time){
+		LOGGER.info("JogadoresDAO - obterJogadoresPorTime");
+		Query queryJogadoresPorTime = entityManager
+				.createQuery("SELECT j FROM Jogadores j WHERE j.time = :time")
+				.setParameter("time", time);
+		
+		List<Jogadores> jogadoresTime = null;
+		jogadoresTime = queryJogadoresPorTime.getResultList();
+		
+		return jogadoresTime;
 	}
 	
 	
