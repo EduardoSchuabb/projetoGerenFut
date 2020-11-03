@@ -1,4 +1,4 @@
-package br.com.gerenFut.util;
+package br.com.gerenFut.negocio;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

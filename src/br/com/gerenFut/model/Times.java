@@ -34,6 +34,12 @@ public class Times implements Serializable{
 	@Column(name = "qtd_jogadores")
 	private int qtdJogadores;
 	
+	@Column(name = "sigla")
+	private String sigla;
+	
+	@Column(name = "link_imagem")
+	private String linkImagem;
+	
 	
 	public Times() {
 	  
@@ -50,7 +56,6 @@ public class Times implements Serializable{
 	
 	
 	
-
 	public int getId() {
 		return id;
 	}
@@ -78,5 +83,21 @@ public class Times implements Serializable{
 	public void setQtdJogadores(int qtdJogadores) {
 		this.qtdJogadores = qtdJogadores;
 	}
+
+	public String getSigla() {
+		return sigla;
+	}
+
+	public void setSigla(String sigla) {
+		this.sigla = sigla;
+	}
+
+	public String getLinkImagem() {
+		return linkImagem;
+	}
+
+	public void setLinkImagem(String linkImagem) {
+		this.linkImagem = linkImagem;
+	}	
 	
 }

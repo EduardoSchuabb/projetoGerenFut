@@ -20,7 +20,7 @@ import com.sun.istack.logging.Logger;
 
 import br.com.gerenFut.DTO.JogadoresDTO;
 import br.com.gerenFut.model.Jogadores;
-import br.com.gerenFut.util.JogadoresNegocio;
+import br.com.gerenFut.negocio.JogadoresNegocio;
 import br.com.gerenFut.validacao.JogadoresValidacao;
 
 @Path("/jogadores")

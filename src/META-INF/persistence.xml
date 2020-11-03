@@ -9,6 +9,7 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<class>br.com.gerenFut.model.Times</class>
 		<class>br.com.gerenFut.model.Jogadores</class>
+		<class>br.com.gerenFut.model.TabelaCampeonato</class> 
 		<properties>
 			<property name="hibernate.dialect"
 				value="org.hibernate.dialect.PostgreSQLDialect" />

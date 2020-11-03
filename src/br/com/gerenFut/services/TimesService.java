@@ -18,11 +18,10 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-
-import br.com.gerenFut.util.TimesNegocio;
 import br.com.gerenFut.validacao.TimesValidacao;
 import br.com.gerenFut.DTO.TimesDTO;
 import br.com.gerenFut.model.*;
+import br.com.gerenFut.negocio.TimesNegocio;
 
 @Path("/times")
 public class TimesService {
