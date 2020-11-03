@@ -14,35 +14,17 @@ import br.com.gerenFut.model.TabelaCampeonato;
 
 public class TabelaCampeonatoDAO {
 
-	
-	private static TabelaCampeonatoDAO instance;
-	protected EntityManager entityManager;
 	private static final Logger LOGGER = Logger.getLogger(TabelaCampeonatoDAO.class);
 	
 	
-	public static TabelaCampeonatoDAO getInstance() {
-		
-		if(instance == null)
-			instance = new TabelaCampeonatoDAO();
-	
-		return instance;
-	}
-	
-	
 	public TabelaCampeonatoDAO() {
-		entityManager = getEntityManager();
-	}
-	
-	private EntityManager getEntityManager() {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudGerenFut");
-		if (entityManager == null) 
-			entityManager = factory.createEntityManager();
-		return entityManager;
+
 	}
 	
 	public void salvarTabelaCampeonato(TabelaCampeonato linhaTabela) {
 		LOGGER.info("TabelaCampeonatoDAO - salvarTabelaCampeonato");
-		
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudGerenFut");
+		EntityManager entityManager = factory.createEntityManager();
 		entityManager.getTransaction().begin();
 		entityManager.persist(linhaTabela);
 		entityManager.getTransaction().commit();
@@ -53,6 +35,8 @@ public class TabelaCampeonatoDAO {
 	
 	public void removerLinhaTabela(String id) {
 		LOGGER.info("TabelaCampeonatoDAO - removerLinhaTabela");
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudGerenFut");
+		EntityManager entityManager = factory.createEntityManager();
 		int idInteiro = Integer.parseInt(id);
 		
 		TabelaCampeonato linhaTabela = entityManager.find(TabelaCampeonato.class, idInteiro);
@@ -68,6 +52,8 @@ public class TabelaCampeonatoDAO {
 	@SuppressWarnings("unchecked")
 	public List<TabelaCampeonato> obterTabela(){
 		LOGGER.info("TabelaCampeonatoDAO - obterTabela");
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudGerenFut");
+		EntityManager entityManager = factory.createEntityManager();
 		Query queryTabela = entityManager.createQuery("from TabelaCampeonato");
 		List<TabelaCampeonato> tabela = null;
 		tabela = queryTabela.getResultList();

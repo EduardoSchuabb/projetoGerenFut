@@ -49,7 +49,12 @@ public class TimeRequisicaoDTO {
 	public void setApelido(String apelido) {
 		this.apelido = apelido;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "TimeRequisicaoDTO [time_id=" + time_id + ", nome_popular=" + nome_popular + ", escudo=" + escudo
+				+ ", nome=" + nome + ", sigla=" + sigla + ", apelido=" + apelido + "]";
+	}
 	
 	
 	

@@ -15,36 +15,19 @@ import br.com.gerenFut.model.Times;
 
 public class TimesDAO{
 	
-	
-	private static TimesDAO instance;
-	protected EntityManager entityManager;
 	private static final Logger LOGGER = Logger.getLogger(TimesDAO.class);
 	
-	public static TimesDAO getInstance() {
-		
-		if(instance == null)
-			instance = new TimesDAO();
-	
-		return instance;
-	
-	}
 	
 	public TimesDAO() {
-		entityManager = getEntityManager();
-	}
-	
-	private EntityManager getEntityManager() {
-	
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudGerenFut");
 		
-		if (entityManager == null) 
-			entityManager = factory.createEntityManager();
-		
-		return entityManager;
 	}
 	
 	public void removerTime(String id) {
 		LOGGER.info("TimesDAO - removerTime");
+		
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudGerenFut");
+		EntityManager entityManager = factory.createEntityManager();
+		
 		int idInteiro = Integer.parseInt(id);  
 		
 		Times time = entityManager.find(Times.class, idInteiro);
@@ -59,9 +42,13 @@ public class TimesDAO{
 	
 	public void salvarTime(Times time) {
 		LOGGER.info("TimesDAO - salvarTime");
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudGerenFut");
+		EntityManager entityManager = factory.createEntityManager();
 		
 		entityManager.getTransaction().begin();
 		entityManager.persist(time);
+		entityManager.flush();
+		entityManager.clear();
 		entityManager.getTransaction().commit();
 		entityManager.close();
 		
@@ -72,7 +59,8 @@ public class TimesDAO{
 	@SuppressWarnings("unchecked")
 	public List<Times> obterTodosTimes(){
 		LOGGER.info("TimesDAO - obterTodosTimes");
-		
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudGerenFut");
+		EntityManager entityManager = factory.createEntityManager();
 		Query listaTodosTimes = entityManager.createQuery("from Times");
 		
 		List<Times> times = null;
@@ -83,6 +71,8 @@ public class TimesDAO{
 	
 	public Times obterTimeId(int id) {
 		LOGGER.info("TimesDAO - obterTimeId");
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudGerenFut");
+		EntityManager entityManager = factory.createEntityManager();
 		Times timeBanco = entityManager.find(Times.class, id);
 		
 		return timeBanco;
@@ -90,7 +80,8 @@ public class TimesDAO{
 	
 	public Times obterTimeNome(String nome) {
 		LOGGER.info("TimesDAO - obterTimeNome");
-
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudGerenFut");
+		EntityManager entityManager = factory.createEntityManager();
 		Query queryTimePorNome = entityManager
 				.createQuery("SELECT t FROM Times t WHERE t.nome = :timeNome")
 				.setParameter("timeNome", nome);
@@ -105,6 +96,8 @@ public class TimesDAO{
 	
 	public void atualizarTime(Times time) {
 		LOGGER.info("TimesDAO - atualizarTIme");
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudGerenFut");
+		EntityManager entityManager = factory.createEntityManager();
 		entityManager.getTransaction().begin();
 		entityManager.merge(time);
 		entityManager.getTransaction().commit();

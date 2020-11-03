@@ -15,31 +15,16 @@ import br.com.gerenFut.model.Times;
 
 public class JogadoresDAO {
 
-	private static JogadoresDAO instance;
-	protected EntityManager entityManager;
 	private static final Logger LOGGER = Logger.getLogger(JogadoresDAO.class);
 	
-	public static JogadoresDAO getInstance() {
-		
-		if(instance == null)
-			instance = new JogadoresDAO();
-	
-		return instance;
-	}
-	
 	public JogadoresDAO() {
-		entityManager = getEntityManager();	
-	}
-	
-	private EntityManager getEntityManager() {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudGerenFut");
-		if (entityManager == null) 
-			entityManager = factory.createEntityManager();
-		return entityManager;
+		
 	}
 	
 	public void salvarJogador(Jogadores jogador) {
 		LOGGER.info("JogadoresDAO - salvarJogador");
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudGerenFut");
+		EntityManager entityManager = factory.createEntityManager();
 		
 		entityManager.getTransaction().begin();
 		entityManager.persist(jogador);
@@ -51,6 +36,8 @@ public class JogadoresDAO {
 	
 	public void removerJogador(String id) {
 		LOGGER.info("JogadoresDAO - removerJogador");
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudGerenFut");
+		EntityManager entityManager = factory.createEntityManager();
 		int idInteiro = Integer.parseInt(id);  
 		
 		Jogadores jogador = entityManager.find(Jogadores.class, idInteiro);
@@ -65,6 +52,8 @@ public class JogadoresDAO {
 	
 	public Jogadores obterJogardorId(int id) {
 		LOGGER.info("JogadoresDAO - obterJogaresId");
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudGerenFut");
+		EntityManager entityManager = factory.createEntityManager();
 		Jogadores jogador = entityManager.find(Jogadores.class, id);
 		
 		return jogador;
@@ -72,6 +61,8 @@ public class JogadoresDAO {
 	
 	public Jogadores obterJogadorNome(String nome) {
 		LOGGER.info("JogadoresDAO - obterJogadorNome");
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudGerenFut");
+		EntityManager entityManager = factory.createEntityManager();
 		Query queryTimePorNome = entityManager
 				.createQuery("SELECT j FROM Jogadores j WHERE j.nome = :jogadorNome")
 				.setParameter("jogadorNome", nome);
@@ -86,6 +77,8 @@ public class JogadoresDAO {
 	
 	public void atualizarJogador(Jogadores jogador) {
 		LOGGER.info("JogadoresDAO - atualizarJogador");
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudGerenFut");
+		EntityManager entityManager = factory.createEntityManager();
 		entityManager.getTransaction().begin();
 		entityManager.merge(jogador);
 		entityManager.getTransaction().commit();
@@ -97,6 +90,8 @@ public class JogadoresDAO {
 	@SuppressWarnings("unchecked")
 	public List<Jogadores> obterJogadoresPorTime(Times time){
 		LOGGER.info("JogadoresDAO - obterJogadoresPorTime");
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("crudGerenFut");
+		EntityManager entityManager = factory.createEntityManager();
 		Query queryJogadoresPorTime = entityManager
 				.createQuery("SELECT j FROM Jogadores j WHERE j.time = :time")
 				.setParameter("time", time);

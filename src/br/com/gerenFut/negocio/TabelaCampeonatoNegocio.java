@@ -1,5 +1,7 @@
 package br.com.gerenFut.negocio;
 
+import java.util.List;
+
 import com.sun.istack.logging.Logger;
 
 import br.com.gerenFut.DTO.RequisicaoTabelaDTO;
@@ -22,7 +24,7 @@ public class TabelaCampeonatoNegocio {
 		LOGGER.info("TabelaCampeonatoNegocio - setTabelaCampeonatoPorRequisicaoDTO");
 		TabelaCampeonato linhaTabela = new TabelaCampeonato();
 		
-		linhaTabela.setAproveitamento(Integer.parseInt(linhaTabelaDTO.getAproveitamento()));
+		linhaTabela.setAproveitamento(Double.parseDouble(linhaTabelaDTO.getAproveitamento()));
 		linhaTabela.setGolsContra(Integer.parseInt(linhaTabelaDTO.getGols_contra()));
 		linhaTabela.setGolsPro(Integer.parseInt(linhaTabelaDTO.getGols_pro()));
 		linhaTabela.setPontos(Integer.parseInt(linhaTabelaDTO.getPontos()));
@@ -41,10 +43,13 @@ public class TabelaCampeonatoNegocio {
 		return linhaTabela;
 	}
 	
-	public void salvarTabelaPorRequisicaoDTO(RequisicaoTabelaDTO linhaTabelaDTO) {
+	public void salvarTabelaPorRequisicaoDTO(List<RequisicaoTabelaDTO>  listaTabelaDTO) {
 		LOGGER.info("TabelaCampeonatoNegocio - salvarTabelaPorRequisicaoDTO");
-		TabelaCampeonato linhaTabela = setTabelaCampeonatoPorRequisicaoDTO(linhaTabelaDTO);
-		tabelaCampeonatoDAO.salvarTabelaCampeonato(linhaTabela);
+		for(RequisicaoTabelaDTO linhaTabelaRequisicaoDTO : listaTabelaDTO) {
+			TabelaCampeonato linhaTabela = setTabelaCampeonatoPorRequisicaoDTO(linhaTabelaRequisicaoDTO);
+			tabelaCampeonatoDAO.salvarTabelaCampeonato(linhaTabela);
+		}
+		
 		
 		
 	}

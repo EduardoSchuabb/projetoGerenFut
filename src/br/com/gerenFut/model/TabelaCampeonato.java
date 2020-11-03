@@ -56,7 +56,7 @@ public class TabelaCampeonato implements Serializable{
 	private int saldoGols;
 	
 	@Column(name = "aproveitamento")
-	private int aproveitamento;
+	private double aproveitamento;
 	
 	@Column(name = "variacao_posicao")
 	private int variacaoPosicao;
@@ -133,10 +133,10 @@ public class TabelaCampeonato implements Serializable{
 	public void setSaldoGols(int saldoGols) {
 		this.saldoGols = saldoGols;
 	}
-	public int getAproveitamento() {
+	public double getAproveitamento() {
 		return aproveitamento;
 	}
-	public void setAproveitamento(int aproveitamento) {
+	public void setAproveitamento(double aproveitamento) {
 		this.aproveitamento = aproveitamento;
 	}
 	public int getVariacaoPosicao() {

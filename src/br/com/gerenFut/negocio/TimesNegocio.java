@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.sun.istack.logging.Logger;
 
-import br.com.gerenFut.DTO.TimeRequisicaoDTO;
 import br.com.gerenFut.DTO.TimesDTO;
 import br.com.gerenFut.model.*;
 import br.com.gerenFut.persistence.TimesDAO;
@@ -40,17 +39,15 @@ public class TimesNegocio {
 		time.setNome(timeDTO.getNome());
 		time.setEstado(timeDTO.getEstado());
 		time.setQtdJogadores(timeDTO.getQtdJogadores());
-		time.setSigla("");
-		time.setLinkImagem("");
+		time.setSigla("-");
+		time.setLinkImagem("-");
 		
 		timesDAO.salvarTime(time);
-		
 	}
 	
-	public void salvarTimeFromApiFutebol(TimeRequisicaoDTO timeRequisicaoDTO) {
-		
-		// Verificar se timeRequisicaoDTO ja existe, caso nao exista
-		// inserir no banco, se existir, atualizar com os novos dados.
+	public void salvarTimeFromApiFutebol(Times time) {
+		LOGGER.info("TimesNegocio - salvarTimeFromApiFutebol");
+		timesDAO.salvarTime(time);
 		
 	}
 	
