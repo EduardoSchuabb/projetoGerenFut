@@ -48,12 +48,12 @@ public class TimesService {
 		validacao = timesValidacao.validarCriacaoInfoTime(timeDTO);
 		if(validacao == -1) {
 			throw new WebApplicationException(
-					Response.status(Response.Status.BAD_REQUEST).entity("Nome do time Ã© obrigatÃ³rio")
+					Response.status(Response.Status.BAD_REQUEST).entity("Nome do time é obrigatório")
 					.build());
 		}
 		if(validacao == -2) {
 			throw new WebApplicationException(
-					Response.status(Response.Status.BAD_REQUEST).entity("Estado do time Ã© obrigatÃ³rio")
+					Response.status(Response.Status.BAD_REQUEST).entity("Estado do time  é obrigatório")
 					.build());
 		}
 		if(!timesValidacao.existeTimePorNome(timeDTO.getNome()))
@@ -109,12 +109,12 @@ public class TimesService {
 		validacao = timesValidacao.validarModicacaoInfoTime(time);
 		if(validacao == -1) {
 			throw new WebApplicationException(
-					Response.status(Response.Status.BAD_REQUEST).entity("Nome do time Ã© obrigatÃ³rio")
+					Response.status(Response.Status.BAD_REQUEST).entity("Nome do time é obrigatório")
 					.build());
 		}
 		if(validacao == -2) {
 			throw new WebApplicationException(
-					Response.status(Response.Status.BAD_REQUEST).entity("Estado do time Ã© obrigatÃ³rio")
+					Response.status(Response.Status.BAD_REQUEST).entity("Estado do time é obrigatório")
 					.build());
 		}
 		
@@ -146,6 +146,9 @@ public class TimesService {
 		LOGGER.info("TimesService - obterTodosOsTimes - OK");
 		return gson.toJson(retorno);
 	}
+	
+	
+	
 	
 	
 }

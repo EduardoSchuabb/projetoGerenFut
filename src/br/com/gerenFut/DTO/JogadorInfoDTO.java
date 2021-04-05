@@ -1,6 +1,6 @@
 package br.com.gerenFut.DTO;
 
-public class JogadoresDTO {
+public class JogadorInfoDTO {
 
 	private String nome;
 	private String dataNascimento;
@@ -8,13 +8,22 @@ public class JogadoresDTO {
 	private String posicao;
 	private double valorMercado;
 	private String nacionalidade;
-	private String nomeTime;
 	
-	
-	public JogadoresDTO() {
+	public JogadorInfoDTO() {
 		
 	}
 	
+	public JogadorInfoDTO(String nome, String dataNascimento, double altura, String posicao, double valorMercado,
+			String nacionalidade) {
+		
+		this.nome = nome;
+		this.dataNascimento = dataNascimento;
+		this.altura = altura;
+		this.posicao = posicao;
+		this.valorMercado = valorMercado;
+		this.nacionalidade = nacionalidade;
+	}
+
 	public String getNome() {
 		return nome;
 	}
@@ -50,12 +59,6 @@ public class JogadoresDTO {
 	}
 	public void setNacionalidade(String nacionalidade) {
 		this.nacionalidade = nacionalidade;
-	}
-	public String getNomeTime() {
-		return nomeTime;
-	}
-	public void setNomeTime(String nomeTime) {
-		this.nomeTime = nomeTime;
 	}
 	
 	

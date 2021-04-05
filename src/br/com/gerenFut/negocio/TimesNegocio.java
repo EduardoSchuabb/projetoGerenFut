@@ -36,7 +36,7 @@ public class TimesNegocio {
 		LOGGER.info("TimesNegocio - salvarTime");
 		
 		Times time = new Times();
-		time.setNome(timeDTO.getNome());
+		time.setNome(timeDTO.getNome().toLowerCase());
 		time.setEstado(timeDTO.getEstado());
 		time.setQtdJogadores(timeDTO.getQtdJogadores());
 		time.setSigla("-");

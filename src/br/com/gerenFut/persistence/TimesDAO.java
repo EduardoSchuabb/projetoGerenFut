@@ -84,7 +84,7 @@ public class TimesDAO{
 		EntityManager entityManager = factory.createEntityManager();
 		Query queryTimePorNome = entityManager
 				.createQuery("SELECT t FROM Times t WHERE t.nome = :timeNome")
-				.setParameter("timeNome", nome);
+				.setParameter("timeNome", nome.toLowerCase());
 		try {
 			Times timeBanco = (Times) queryTimePorNome.getSingleResult();
 			return timeBanco;

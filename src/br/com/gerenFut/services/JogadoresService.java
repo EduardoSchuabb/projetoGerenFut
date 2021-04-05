@@ -18,8 +18,8 @@ import javax.ws.rs.core.Response;
 import com.google.gson.Gson;
 import com.sun.istack.logging.Logger;
 
+import br.com.gerenFut.DTO.JogadorInfoDTO;
 import br.com.gerenFut.DTO.JogadoresDTO;
-import br.com.gerenFut.model.Jogadores;
 import br.com.gerenFut.negocio.JogadoresNegocio;
 import br.com.gerenFut.validacao.JogadoresValidacao;
 
@@ -35,7 +35,7 @@ public class JogadoresService {
 	@GET
 	@Path("/removeJogador/{jogadorId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String removetime(@PathParam("jogadorId") String id) {
+	public String removejogador(@PathParam("jogadorId") String id) {
 		LOGGER.info("JogadoresService - removetime");
 		
 		Gson gson = new Gson();
@@ -68,17 +68,17 @@ public class JogadoresService {
 		
 		if(validacao == -1) {
 			throw new WebApplicationException(
-					Response.status(Response.Status.BAD_REQUEST).entity("Nome do jogador Ã© obrigatÃ³rio")
+					Response.status(Response.Status.BAD_REQUEST).entity("Nome do jogador é obrigatório")
 					.build());
 		}
 		if(validacao == -2) {
 			throw new WebApplicationException(
-					Response.status(Response.Status.BAD_REQUEST).entity("Posicao do jogador Ã© obrigatÃ³rio")
+					Response.status(Response.Status.BAD_REQUEST).entity("Posicao do jogador é obrigatório")
 					.build());
 		}
 		if(validacao == -3) {
 			throw new WebApplicationException(
-					Response.status(Response.Status.BAD_REQUEST).entity("Time nao encontrado")
+					Response.status(Response.Status.BAD_REQUEST).entity("Time não encontrado")
 					.build());
 		}
 		if(!jogadoresValidacao.existeJogadorPorNome(jogadorDTO.getNome()))
@@ -112,24 +112,24 @@ public class JogadoresService {
 		
 		if(validacao == -1) {
 			throw new WebApplicationException(
-					Response.status(Response.Status.BAD_REQUEST).entity("Nome do jogador Ã© obrigatÃ³rio")
+					Response.status(Response.Status.BAD_REQUEST).entity("Nome do jogador é obrigatório")
 					.build());
 		}
 		if(validacao == -2) {
 			throw new WebApplicationException(
-					Response.status(Response.Status.BAD_REQUEST).entity("Posicao do jogador Ã© obrigatÃ³rio")
+					Response.status(Response.Status.BAD_REQUEST).entity("Posicao do jogador é obrigatório")
 					.build());
 		}
 		if(validacao == -3) {
 			throw new WebApplicationException(
-					Response.status(Response.Status.BAD_REQUEST).entity("Time nao encontrado")
+					Response.status(Response.Status.BAD_REQUEST).entity("Time não encontrado")
 					.build());
 		}
 		if(jogadoresValidacao.existeJogadorPorNome(jogadorDTO.getNome()))
 			jogadoresNegocio.atualizarJogador(jogadorDTO, jogadorId);
 		else {
 			throw new WebApplicationException(
-					Response.status(Response.Status.BAD_REQUEST).entity("Jogador nao existe.")
+					Response.status(Response.Status.BAD_REQUEST).entity("Jogador não existe.")
 					.build());
 		}
 		
@@ -138,17 +138,17 @@ public class JogadoresService {
 	}
 	
 	@GET
-	@Path("/jogadorePorTime/{timeId}")
+	@Path("/jogadorePorTime/{nomeTime}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String obterJogadoresPorTime(@PathParam("timeId") String timeId) {
+	public String obterJogadoresPorTime(@PathParam("nomeTime") String nomeTime) {
 		LOGGER.info("JogadoresService - obterJogadoresPorTime");
 		
 		Gson gson = new Gson();
-		List<Jogadores> jogadores = jogadoresNegocio.obterJogadoresPorTime(timeId);
+		List<JogadorInfoDTO> jogadoresInfo = jogadoresNegocio.obterJogadoresPorTime(nomeTime);
 		
 		
-		Map<String, List<Jogadores>> retorno = new HashMap<String, List<Jogadores>>();
-		retorno.put("Jogadores", jogadores);
+		Map<String, List<JogadorInfoDTO>> retorno = new HashMap<String, List<JogadorInfoDTO>>();
+		retorno.put("Jogadores", jogadoresInfo);
 		
 		LOGGER.info("JogadoresService - obterJogadoresPorTime - OK");
 		return gson.toJson(retorno);

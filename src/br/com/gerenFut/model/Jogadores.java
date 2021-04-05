@@ -20,7 +20,7 @@ public class Jogadores implements Serializable{
 	
 	
 	@Id
-	@Column(name = "id")
+	@Column(name = "jogadores_id")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqIdJogadores")
 	@SequenceGenerator(name="seqIdJogadores",sequenceName="jogadores_id_seq", initialValue = 1, allocationSize = 1)
 	private int id;

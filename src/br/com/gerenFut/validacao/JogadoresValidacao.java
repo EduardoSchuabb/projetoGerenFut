@@ -31,7 +31,7 @@ public class JogadoresValidacao {
 			LOGGER.severe("Validacao de criacao de jogador - Posicao vazio.");
 			retorno = -2;
 		}
-		if(!timesValidacao.existeTimePorId(jogador.getIdTime())) {
+		if(!timesValidacao.existeTimePorNome(jogador.getNomeTime())) {
 			LOGGER.severe("Validacao de criacao de jogador - Time nao existe.");
 			retorno = -3;
 		}

@@ -14,13 +14,13 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "times")
+@Table(name = "times_futebol")
 public class Times implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	
 	@Id
-	@Column(name = "id")
+	@Column(name = "time_id ")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqIdTimes")
 	@SequenceGenerator(name="seqIdTimes",sequenceName="times_id_seq", initialValue = 1, allocationSize = 1)
 	private int id;

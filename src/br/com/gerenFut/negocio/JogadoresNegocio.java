@@ -1,13 +1,15 @@
 package br.com.gerenFut.negocio;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import com.sun.istack.logging.Logger;
 
-
+import br.com.gerenFut.DTO.JogadorInfoDTO;
 import br.com.gerenFut.DTO.JogadoresDTO;
 import br.com.gerenFut.model.Jogadores;
 import br.com.gerenFut.model.Times;
@@ -47,7 +49,7 @@ public class JogadoresNegocio {
 		jogador.setNacionalidade(jogadorDTO.getNacionalidade());
 		jogador.setPosicao(jogadorDTO.getPosicao());
 		jogador.setValorMercado(jogadorDTO.getValorMercado());
-		Times timeJogador = timesDAO.obterTimeId(jogadorDTO.getIdTime());
+		Times timeJogador = timesDAO.obterTimeNome(jogadorDTO.getNomeTime());
 		jogador.setTime(timeJogador);
 		
 		jogadoresDAO.salvarJogador(jogador);
@@ -73,19 +75,41 @@ public class JogadoresNegocio {
 		jogador.setNacionalidade(jogadorDTO.getNacionalidade());
 		jogador.setPosicao(jogadorDTO.getPosicao());
 		jogador.setValorMercado(jogadorDTO.getValorMercado());
-		Times timeJogador = timesDAO.obterTimeId(jogadorDTO.getIdTime());
+		Times timeJogador = timesDAO.obterTimeNome(jogadorDTO.getNomeTime());
 		jogador.setTime(timeJogador);
 		
 		jogadoresDAO.atualizarJogador(jogador);
 	}
 	
-	public List<Jogadores> obterJogadoresPorTime(String timeId){
+	public List<JogadorInfoDTO> obterJogadoresPorTime(String timeNome){
 		LOGGER.info("JogadoresNegocio - obterJogadoresPorTime");
-		Times time = timesDAO.obterTimeId(Integer.parseInt(timeId));
 		
-		return jogadoresDAO.obterJogadoresPorTime(time);
+		Times time = timesDAO.obterTimeNome(timeNome.toLowerCase());
 		
+		List<Jogadores> jogadores =  jogadoresDAO.obterJogadoresPorTime(time);
+		
+		List<JogadorInfoDTO> jogadoresInfo = new ArrayList<>();
+		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		
+		for(Jogadores jogador : jogadores) {
+			
+			String dataNascimento = jogador.getDataNascimento() != null ? 
+					formato.format(jogador.getDataNascimento()) : "sem data";
+			
+			JogadorInfoDTO jogadorInfoTemp = new JogadorInfoDTO(jogador.getNome(), 
+											dataNascimento,
+											jogador.getAltura(),
+											jogador.getPosicao(),
+											jogador.getValorMercado(),
+											jogador.getNacionalidade());
+			
+			jogadoresInfo.add(jogadorInfoTemp);
+			
+		}
+		
+		return jogadoresInfo;
 	}
+	
 	
 	
 	
