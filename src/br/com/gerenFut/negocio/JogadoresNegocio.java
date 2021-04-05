@@ -1,6 +1,5 @@
 package br.com.gerenFut.negocio;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -84,7 +83,7 @@ public class JogadoresNegocio {
 	public List<JogadorInfoDTO> obterJogadoresPorTime(String timeNome){
 		LOGGER.info("JogadoresNegocio - obterJogadoresPorTime");
 		
-		Times time = timesDAO.obterTimeNome(timeNome.toLowerCase());
+		Times time = timesDAO.obterTimeNome(timeNome);
 		
 		List<Jogadores> jogadores =  jogadoresDAO.obterJogadoresPorTime(time);
 		

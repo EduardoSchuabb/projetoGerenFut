@@ -20,6 +20,20 @@ public class TabelaCampeonatoNegocio {
 		
 	}
 	
+	
+	public void salvarTabelaPorRequisicaoDTO(List<RequisicaoTabelaDTO>  listaTabelaDTO) {
+		LOGGER.info("TabelaCampeonatoNegocio - salvarTabelaPorRequisicaoDTO");
+		for(RequisicaoTabelaDTO linhaTabelaRequisicaoDTO : listaTabelaDTO) {
+			TabelaCampeonato linhaTabelaRequisicao = setTabelaCampeonatoPorRequisicaoDTO(linhaTabelaRequisicaoDTO);
+			TabelaCampeonato linhaTabelaTemp = tabelaCampeonatoDAO.obterLinhaDaTabelaByTimeId(linhaTabelaRequisicao.getTime());
+			if(linhaTabelaTemp != null)
+				tabelaCampeonatoDAO.atualizarTabelaCampeonato(linhaTabelaRequisicao, linhaTabelaTemp.getId());
+			else
+				tabelaCampeonatoDAO.salvarTabelaCampeonato(linhaTabelaRequisicao);
+		}
+		
+	}
+	
 	private TabelaCampeonato setTabelaCampeonatoPorRequisicaoDTO(RequisicaoTabelaDTO linhaTabelaDTO) {
 		LOGGER.info("TabelaCampeonatoNegocio - setTabelaCampeonatoPorRequisicaoDTO");
 		TabelaCampeonato linhaTabela = new TabelaCampeonato();
@@ -42,19 +56,6 @@ public class TabelaCampeonatoNegocio {
 		
 		return linhaTabela;
 	}
-	
-	public void salvarTabelaPorRequisicaoDTO(List<RequisicaoTabelaDTO>  listaTabelaDTO) {
-		LOGGER.info("TabelaCampeonatoNegocio - salvarTabelaPorRequisicaoDTO");
-		for(RequisicaoTabelaDTO linhaTabelaRequisicaoDTO : listaTabelaDTO) {
-			TabelaCampeonato linhaTabela = setTabelaCampeonatoPorRequisicaoDTO(linhaTabelaRequisicaoDTO);
-			tabelaCampeonatoDAO.salvarTabelaCampeonato(linhaTabela);
-		}
-		
-		
-		
-	}
-	
-	
 	
 	
 	
