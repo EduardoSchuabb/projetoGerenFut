@@ -1,5 +1,6 @@
 package br.com.gerenFut.negocio;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sun.istack.logging.Logger;
@@ -17,8 +18,12 @@ public class TimesNegocio {
 		
 	}
 	
-	public void atualizarTime(Times time) {
+	public void atualizarTime(TimesDTO timeDTO) {
 		LOGGER.info("TimesNegocio - atualizarTime");
+		// Procurar o time a partir do timeDTO.
+		
+		Times time = timesDAO.obterTimeNome(timeDTO.getNome());
+		
 		timesDAO.atualizarTime(time);
 	}
 	
@@ -27,9 +32,22 @@ public class TimesNegocio {
 		timesDAO.removerTime(id);
 	}
 	
-	public List<Times> obterTodosOsTimes(){
+	public List<TimesDTO> obterTodosOsTimes(){
 		LOGGER.info("TimesNegocio - obterTodosOsTimes");
-		return timesDAO.obterTodosTimes();
+		List<TimesDTO> timesDTO = new ArrayList<TimesDTO>();
+		List<Times> times = new ArrayList<Times>();
+		
+		times = timesDAO.obterTodosTimes();
+		for(Times time : times) {
+			TimesDTO timeTemp = new TimesDTO();
+			timeTemp.setEstado(time.getEstado());
+			timeTemp.setLinkImagem(time.getLinkImagem());
+			timeTemp.setNome(time.getNome());
+			timeTemp.setQtdJogadores(time.getQtdJogadores());
+			timeTemp.setSigla(time.getSigla());
+			timesDTO.add(timeTemp);
+		}
+		return timesDTO;
 	}
 	
 	public void salvarTime(TimesDTO timeDTO) {
@@ -39,8 +57,8 @@ public class TimesNegocio {
 		time.setNome(timeDTO.getNome().toLowerCase());
 		time.setEstado(timeDTO.getEstado());
 		time.setQtdJogadores(timeDTO.getQtdJogadores());
-		time.setSigla("-");
-		time.setLinkImagem("-");
+		time.setSigla(timeDTO.getSigla());
+		time.setLinkImagem(timeDTO.getLinkImagem());
 		
 		timesDAO.salvarTime(time);
 	}

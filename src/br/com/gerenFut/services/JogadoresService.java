@@ -12,13 +12,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.google.gson.Gson;
 import com.sun.istack.logging.Logger;
 
-import br.com.gerenFut.DTO.JogadorInfoDTO;
 import br.com.gerenFut.DTO.JogadoresDTO;
 import br.com.gerenFut.negocio.JogadoresNegocio;
 import br.com.gerenFut.validacao.JogadoresValidacao;
@@ -35,10 +34,9 @@ public class JogadoresService {
 	@GET
 	@Path("/removeJogador/{jogadorId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String removejogador(@PathParam("jogadorId") String id) {
+	public Response removejogador(@PathParam("jogadorId") String id) {
 		LOGGER.info("JogadoresService - removetime");
 		
-		Gson gson = new Gson();
 		Map<String, Boolean> retorno = new HashMap<String, Boolean>();
 		
 		if(jogadoresValidacao.existeJogadorPorId(Integer.parseInt(id)))
@@ -50,17 +48,16 @@ public class JogadoresService {
 		}
 		
 		retorno.put("Removido", true);
-		return gson.toJson(retorno);
+		return Response.ok(retorno).header("Access-Control-Allow-Origin", "*").build();
 	}
 	
 	@POST
 	@Path("/criaJogadores")
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String criaJogador(String jogadorJson) {
+	public Response criaJogador(JogadoresDTO jogadorDTO) {
 		LOGGER.info("JogadoresService - criaJogador");
-		Gson gson = new Gson();
-		JogadoresDTO jogadorDTO = gson.fromJson(jogadorJson, JogadoresDTO.class);
+		
 		Map<String, Boolean> retorno = new HashMap<String, Boolean>();
 		
 		int validacao;
@@ -92,19 +89,19 @@ public class JogadoresService {
 		retorno.put("Confirmacao", true);
 		LOGGER.info("JogadoresService - criaJogador - OK");
 		
-		return gson.toJson(retorno);
+		return Response.ok(retorno).header("Access-Control-Allow-Origin", "*").build();
 	}
 	
+	// Esse metodo mudara em um futuro proximo.
+	// Objetivo: nao faz sentido utilizar o jogadorId
 	@PUT
 	@Path("/atualizaJogador/{jogadorId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String atualizaJogador(@PathParam("jogadorId") String jogadorId, String jogadorJson) {
+	public Response atualizaJogador(@PathParam("jogadorId") String jogadorId, JogadoresDTO jogadorDTO) {
 		
 		LOGGER.info("JogadoresService - atualizaJogador");
 		
-		Gson gson = new Gson();
-		JogadoresDTO jogadorDTO = gson.fromJson(jogadorJson, JogadoresDTO.class);
 		Map<String, Boolean> retorno = new HashMap<String, Boolean>();
 		
 		int validacao;
@@ -134,24 +131,21 @@ public class JogadoresService {
 		}
 		
 		retorno.put("Atualizado", true);
-		return gson.toJson(retorno);
+		return Response.ok(retorno).header("Access-Control-Allow-Origin", "*").build();
 	}
 	
 	@GET
 	@Path("/jogadorePorTime/{nomeTime}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String obterJogadoresPorTime(@PathParam("nomeTime") String nomeTime) {
+	public Response obterJogadoresPorTime(@PathParam("nomeTime") String nomeTime) {
 		LOGGER.info("JogadoresService - obterJogadoresPorTime");
 		
-		Gson gson = new Gson();
-		List<JogadorInfoDTO> jogadoresInfo = jogadoresNegocio.obterJogadoresPorTime(nomeTime);
+		List<JogadoresDTO> jogadoresInfo = jogadoresNegocio.obterJogadoresPorTime(nomeTime);
+		GenericEntity<List<JogadoresDTO>> retorno = new GenericEntity<List<JogadoresDTO>>(jogadoresInfo) {};
 		
-		
-		Map<String, List<JogadorInfoDTO>> retorno = new HashMap<String, List<JogadorInfoDTO>>();
-		retorno.put("Jogadores", jogadoresInfo);
 		
 		LOGGER.info("JogadoresService - obterJogadoresPorTime - OK");
-		return gson.toJson(retorno);
+		return Response.ok(retorno).header("Access-Control-Allow-Origin", "*").build();
 			
 	}
 	

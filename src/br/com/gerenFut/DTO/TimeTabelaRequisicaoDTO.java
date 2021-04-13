@@ -1,5 +1,8 @@
 package br.com.gerenFut.DTO;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class TimeTabelaRequisicaoDTO {
 
 	private String time_id;

@@ -17,16 +17,16 @@ public class TimesValidacao {
 		
 	}
 	
-	public int validarCriacaoInfoTime(TimesDTO time) {
+	public int validarCriacaoInfoTime(TimesDTO timeDTO) {
 		
 		LOGGER.info("TimesValidacao - validarCriacaoInfoTime");
 		int retorno = 0;
 		
-		if(time.getNome() == null || time.getNome().isEmpty()) {
+		if(timeDTO.getNome() == null || timeDTO.getNome().isEmpty()) {
 			LOGGER.severe("Validacao de criacao de time - Nome vazio.");
 			retorno = -1;
 		}
-		if(time.getEstado() == null || time.getEstado().isEmpty()) {
+		if(timeDTO.getEstado() == null || timeDTO.getEstado().isEmpty()) {
 			LOGGER.severe("Validacao de criacao de time - Estado vazio.");
 			retorno = -2;
 		}
@@ -34,7 +34,7 @@ public class TimesValidacao {
 		return retorno;
 	}
 	
-	public int validarModicacaoInfoTime(Times time) {
+	public int validarModicacaoInfoTime(TimesDTO time) {
 		LOGGER.info("TimesValidacao - validarModicacaoInfoTime");
 		
 		int retorno = 0;

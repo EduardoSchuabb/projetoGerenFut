@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.sun.istack.logging.Logger;
 
-import br.com.gerenFut.DTO.JogadorInfoDTO;
 import br.com.gerenFut.DTO.JogadoresDTO;
 import br.com.gerenFut.model.Jogadores;
 import br.com.gerenFut.model.Times;
@@ -80,14 +79,14 @@ public class JogadoresNegocio {
 		jogadoresDAO.atualizarJogador(jogador);
 	}
 	
-	public List<JogadorInfoDTO> obterJogadoresPorTime(String timeNome){
+	public List<JogadoresDTO> obterJogadoresPorTime(String timeNome){
 		LOGGER.info("JogadoresNegocio - obterJogadoresPorTime");
 		
 		Times time = timesDAO.obterTimeNome(timeNome);
 		
 		List<Jogadores> jogadores =  jogadoresDAO.obterJogadoresPorTime(time);
 		
-		List<JogadorInfoDTO> jogadoresInfo = new ArrayList<>();
+		List<JogadoresDTO> jogadoresInfo = new ArrayList<>();
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 		
 		for(Jogadores jogador : jogadores) {
@@ -95,14 +94,16 @@ public class JogadoresNegocio {
 			String dataNascimento = jogador.getDataNascimento() != null ? 
 					formato.format(jogador.getDataNascimento()) : "sem data";
 			
-			JogadorInfoDTO jogadorInfoTemp = new JogadorInfoDTO(jogador.getNome(), 
-											dataNascimento,
-											jogador.getAltura(),
-											jogador.getPosicao(),
-											jogador.getValorMercado(),
-											jogador.getNacionalidade());
+			JogadoresDTO jogadorDTOTemp = new JogadoresDTO();
+			jogadorDTOTemp.setNome(jogador.getNome());
+			jogadorDTOTemp.setDataNascimento(dataNascimento);
+			jogadorDTOTemp.setAltura(jogador.getAltura());
+			jogadorDTOTemp.setPosicao(jogador.getPosicao());
+			jogadorDTOTemp.setValorMercado(jogador.getValorMercado());
+			jogadorDTOTemp.setNacionalidade(jogador.getNacionalidade());
+			jogadorDTOTemp.setNomeTime(jogador.getTime().getNome());
 			
-			jogadoresInfo.add(jogadorInfoTemp);
+			jogadoresInfo.add(jogadorDTOTemp);
 			
 		}
 		
